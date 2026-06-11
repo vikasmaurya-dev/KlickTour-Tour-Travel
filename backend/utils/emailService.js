@@ -1,4 +1,9 @@
 import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+// Use Resend API if key is available (works on Render/cloud), else SMTP (local dev)
+const useResend = !!process.env.RESEND_API_KEY;
+const resend = useResend ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const createMailTransport = () => {
   const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
@@ -21,34 +26,61 @@ const createMailTransport = () => {
   });
 };
 
+const sendEmail = async ({ to, subject, text, html }) => {
+  // Method 1: Resend API (cloud-friendly, no SMTP ports needed)
+  if (useResend) {
+    const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
+    const { error } = await resend.emails.send({
+      from: `KlickTour Travel <${fromEmail}>`,
+      to: [to],
+      subject,
+      text,
+      html,
+    });
+    if (error) {
+      console.error('Resend error:', error);
+      throw new Error(error.message);
+    }
+    console.log(`📧 Email sent via Resend to ${to}`);
+    return;
+  }
+
+  // Method 2: SMTP (local development)
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const transport = createMailTransport();
+    const fromEmail = process.env.FROM_EMAIL || process.env.SMTP_USER;
+    const fromAddress = `"KlickTour Travel" <${fromEmail}>`;
+    const info = await transport.sendMail({ from: fromAddress, replyTo: fromEmail, to, subject, text, html });
+    console.log(`📧 Email sent via SMTP to ${to}. MessageId: ${info.messageId}`);
+    return;
+  }
+
+  // Fallback: Log to console
+  console.log('\n=======================================');
+  console.log('🚧 SIMULATED EMAIL - NO EMAIL SERVICE CONFIGURED 🚧');
+  console.log(`📧 To: ${to} | Subject: ${subject}`);
+  console.log('=======================================\n');
+};
+
 export const sendOTP = async (email, otp, purpose) => {
-  const subjectMap = {
-    register: '✈️ KlickTour — Verify Your Email',
-    login:    '🔐 KlickTour — Login Verification Code',
-    reset:    '🔑 KlickTour — Password Reset Code',
-  };
-
-  const headingMap = {
-    register: 'Verify Your Email Address',
-    login:    'Login Verification',
-    reset:    'Password Reset',
-  };
-
-  const descMap = {
-    register: 'Enter this code to complete your registration:',
-    login:    'Enter this code to complete your login:',
-    reset:    'Enter this code to reset your password:',
-  };
-
   const cleanSubjectMap = {
     register: 'KlickTour - Verify Your Email',
     login: 'KlickTour - Login Verification Code',
     reset: 'KlickTour - Password Reset Code',
   };
-  const fromEmail = process.env.FROM_EMAIL || process.env.SMTP_USER;
-  const fromAddress = fromEmail
-    ? `"KlickTour Travel" <${fromEmail}>`
-    : '"KlickTour Travel" <noreply@klicktour.com>';
+
+  const headingMap = {
+    register: 'Verify Your Email Address',
+    login: 'Login Verification',
+    reset: 'Password Reset',
+  };
+
+  const descMap = {
+    register: 'Enter this code to complete your registration:',
+    login: 'Enter this code to complete your login:',
+    reset: 'Enter this code to reset your password:',
+  };
+
   const text = [
     headingMap[purpose],
     '',
@@ -62,18 +94,15 @@ export const sendOTP = async (email, otp, purpose) => {
   const html = `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 30px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 16px;">
       <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #6366f1; font-size: 28px; margin: 0;">✈️ KlickTour</h1>
+        <h1 style="color: #6366f1; font-size: 28px; margin: 0;">KlickTour</h1>
         <p style="color: #64748b; margin-top: 5px;">Tour & Travel Agency</p>
       </div>
-      
       <div style="background: #ffffff; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
         <h2 style="color: #1e293b; font-size: 20px; margin-bottom: 10px;">${headingMap[purpose]}</h2>
         <p style="color: #64748b; font-size: 14px; line-height: 1.6;">${descMap[purpose]}</p>
-        
         <div style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 12px; padding: 20px; margin: 25px 0;">
           <span style="font-size: 36px; font-weight: 700; color: #ffffff; letter-spacing: 8px;">${otp}</span>
         </div>
-        
         <p style="color: #94a3b8; font-size: 13px;">
           This code expires in <strong>5 minutes</strong>.<br/>
           If you didn't request this, please ignore this email.
@@ -82,37 +111,7 @@ export const sendOTP = async (email, otp, purpose) => {
     </div>
   `;
 
-  // Use real SMTP if configured
-  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-    const transport = createMailTransport();
-
-    try {
-      const info = await transport.sendMail({
-        from: fromAddress,
-        replyTo: fromEmail,
-        to: email,
-        subject: cleanSubjectMap[purpose] || subjectMap[purpose],
-        text,
-        html,
-      });
-
-      console.log(`📧 OTP email sent to ${email}. MessageId: ${info.messageId}`);
-    } catch (mailError) {
-      console.error('❌ Error sending OTP email:', mailError.message);
-      // In production, you might want to re-throw or handle this differently
-      throw mailError; 
-    }
-    return;
-  }
-
-  // Developer Fallback: Log OTP to terminal if no SMTP is configured
-  console.log('\n=======================================');
-  console.log('🚧 SIMULATED EMAIL - NO SMTP CONFIGURED 🚧');
-  console.log(`📧 To:      ${email}`);
-  console.log(`📍 Purpose:  ${purpose}`);
-  console.log(`🔑 OTP Code: ${otp}`);
-  console.log('=======================================\n');
-  return;
+  await sendEmail({ to: email, subject: cleanSubjectMap[purpose], text, html });
 };
 
 export const sendBookingConfirmation = async (email, booking, pkg) => {
@@ -135,23 +134,7 @@ export const sendBookingConfirmation = async (email, booking, pkg) => {
     </div>
   `;
 
-  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-    const transport = createMailTransport();
-    await transport.sendMail({
-      from: process.env.FROM_EMAIL || '"KlickTour Travel" <noreply@klicktour.com>',
-      to: email,
-      subject: `KlickTour Booking Invoice ${booking.invoiceNumber}`,
-      html,
-    });
-    return;
-  }
-
-  console.log('\n=======================================');
-  console.log('SIMULATED BOOKING EMAIL - NO SMTP CONFIGURED');
-  console.log(`To:      ${email}`);
-  console.log(`Invoice: ${booking.invoiceNumber}`);
-  console.log(`Package: ${pkg?.name || 'Selected package'}`);
-  console.log('=======================================\n');
+  await sendEmail({ to: email, subject: `KlickTour Booking Invoice ${booking.invoiceNumber}`, html });
 };
 
 export const sendHotelBookingConfirmation = async (email, booking) => {
@@ -180,21 +163,5 @@ export const sendHotelBookingConfirmation = async (email, booking) => {
     </div>
   `;
 
-  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-    const transport = createMailTransport();
-    await transport.sendMail({
-      from: process.env.FROM_EMAIL || '"KlickTour Travel" <noreply@klicktour.com>',
-      to: email,
-      subject: `KlickTour Hotel Reservation ${booking.reservationId}`,
-      html,
-    });
-    return;
-  }
-
-  console.log('\n=======================================');
-  console.log('SIMULATED HOTEL BOOKING EMAIL - NO SMTP CONFIGURED');
-  console.log(`To:             ${email}`);
-  console.log(`Reservation ID: ${booking.reservationId}`);
-  console.log(`Hotel:          ${booking.hotelName || 'Selected hotel'}`);
-  console.log('=======================================\n');
+  await sendEmail({ to: email, subject: `KlickTour Hotel Reservation ${booking.reservationId}`, html });
 };

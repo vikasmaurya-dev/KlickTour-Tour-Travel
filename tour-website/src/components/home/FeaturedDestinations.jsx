@@ -39,7 +39,7 @@ export const FeaturedDestinations = ({ destinations = [], loading }) => {
         {loading ? (
           <div className="horizontal-scroll" style={{ overflow: 'hidden' }}>
             {[1, 2, 3, 4].map(i => (
-              <div key={i} style={{ display: 'inline-block', marginRight: '20px' }}>
+              <div key={i}>
                 <CardSkeleton />
               </div>
             ))}
@@ -52,7 +52,7 @@ export const FeaturedDestinations = ({ destinations = [], loading }) => {
             <div className="horizontal-scroll" ref={destScrollRef}>
               {Array.isArray(destinations) && destinations.length > 0 ? (
                 destinations.slice(0, 10).map(dest => (
-                  <div key={dest._id || dest.id} style={{ display: 'inline-block', minWidth: '300px' }}>
+                  <div key={dest._id || dest.id}>
                     <DestinationCard {...dest} />
                   </div>
                 ))

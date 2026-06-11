@@ -40,7 +40,7 @@ export const TrendingPackages = ({ packages, loading }) => {
         {loading ? (
           <div className="horizontal-scroll" style={{ overflow: 'hidden' }}>
             {[1, 2, 3, 4].map(i => (
-              <div key={i} style={{ display: 'inline-block', marginRight: '20px' }}>
+              <div key={i}>
                 <CardSkeleton />
               </div>
             ))}
@@ -53,7 +53,7 @@ export const TrendingPackages = ({ packages, loading }) => {
             <div className="horizontal-scroll" ref={packageScrollRef}>
               {packages && packages.length > 0 ? (
                 packages.map(pkg => (
-                  <div key={pkg._id} style={{ display: 'inline-block', minWidth: '320px' }}>
+                  <div key={pkg._id}>
                     <PackageCard {...pkg} />
                   </div>
                 ))

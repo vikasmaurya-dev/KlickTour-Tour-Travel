@@ -421,6 +421,7 @@ table {
 
   .horizontal-scroll > * {
     flex-basis: min(82vw, 320px);
+    scroll-snap-align: center;
   }
 }
 
