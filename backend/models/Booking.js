@@ -1,0 +1,35 @@
+import mongoose from 'mongoose';
+
+const bookingSchema = new mongoose.Schema({
+  userId:         { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  packageId:      { type: mongoose.Schema.Types.ObjectId, ref: 'Package' },
+  packageName:    { type: String, default: '' },
+  packageLocation:{ type: String, default: '' },
+  packageImage:   { type: String, default: '' },
+  packageSubtotal:{ type: Number, default: 0 },
+  locationKey:    { type: String, default: '' },
+  hotelId:        { type: mongoose.Schema.Types.ObjectId, ref: 'Hotel' },
+  hotelName:      { type: String, default: '' },
+  hotelLocation:  { type: String, default: '' },
+  hotelImage:     { type: String, default: '' },
+  hotelPricePerNight: { type: Number, default: 0 },
+  hotelRating:    { type: Number, default: 0 },
+  hotelAmenities: { type: [String], default: [] },
+  hotelRoomType:  { type: String, default: '' },
+  hotelNights:    { type: Number, default: 0 },
+  hotelSubtotal:  { type: Number, default: 0 },
+  fullName:       { type: String, required: true },
+  email:          { type: String, required: true },
+  phone:          { type: String, required: true },
+  travelDate:     { type: Date, required: true },
+  travelers:      { type: Number, required: true, min: 1 },
+  specialRequests:{ type: String, default: '' },
+  paymentMethod:  { type: String, enum: ['Card', 'UPI', 'Net Banking'], default: 'Card' },
+  totalPrice:     { type: Number, required: true },
+  discountAmount: { type: Number, default: 0 },
+  couponCode:     { type: String, default: '' },
+  invoiceNumber:  { type: String, unique: true, sparse: true },
+  status:         { type: String, enum: ['Pending', 'Confirmed', 'Cancelled', 'Completed'], default: 'Pending' },
+}, { timestamps: true });
+
+export default mongoose.model('Booking', bookingSchema);

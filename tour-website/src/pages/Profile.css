@@ -1,0 +1,489 @@
+/* ─── Profile Page Styles ─────────────────────────── */
+
+.profile-page {
+  min-height: 80vh;
+  padding-top: 100px;
+  padding-bottom: 60px;
+  background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-secondary) 100%);
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* User Card Sidebar */
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-card {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 auto 20px;
+  box-shadow: 0 10px 25px rgba(20, 184, 166, 0.3);
+  overflow: hidden;
+}
+
+.user-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Avatar Upload ───────────────────────────────── */
+.avatar-upload-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar-file-input {
+  display: none;
+}
+
+.avatar-clickable {
+  position: relative;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  outline: none;
+  margin-bottom: 12px;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.avatar-clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.4);
+}
+
+.avatar-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.avatar-clickable:hover .avatar-overlay {
+  opacity: 1;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.avatar-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Action buttons */
+.avatar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.avatar-action-btn {
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+
+.avatar-save-btn {
+  background: var(--primary);
+  color: #fff;
+}
+
+.avatar-save-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.avatar-cancel-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+}
+
+.avatar-cancel-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-color);
+}
+
+.avatar-change-btn {
+  background: rgba(20, 184, 166, 0.12);
+  color: var(--primary);
+}
+
+.avatar-change-btn:hover:not(:disabled) {
+  background: rgba(20, 184, 166, 0.22);
+}
+
+.avatar-remove-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.avatar-remove-btn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.avatar-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.user-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+.user-email {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+.user-badge {
+  display: inline-block;
+  background: rgba(20, 184, 166, 0.15);
+  color: var(--primary);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+}
+
+.user-member-since {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Profile Navigation */
+.profile-nav {
+  padding: 10px 0;
+}
+
+.profile-nav-btn {
+  width: 100%;
+  text-align: left;
+  padding: 15px 25px;
+  background: transparent;
+  border: none;
+  border-left: 3px solid transparent;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.profile-nav-btn:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+}
+
+.profile-nav-btn.active {
+  border-left-color: var(--primary);
+  background: rgba(20, 184, 166, 0.05);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Content Area */
+.profile-content {
+  min-height: 400px;
+}
+
+.profile-section-card {
+  padding: 35px;
+}
+
+.profile-section-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+}
+
+/* Forms inside Profile */
+.profile-form .form-group {
+  margin-bottom: 20px;
+}
+
+.profile-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-color);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.profile-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+}
+
+/* Alert Messages */
+.alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.alert.success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+.alert.error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+/* Booking List */
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.booking-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.booking-img-wrap {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.booking-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.booking-header h4 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+
+.booking-location {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.status-badge.confirmed {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.status-badge.cancelled {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.booking-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .booking-item {
+    flex-direction: column;
+  }
+  .booking-img-wrap {
+    width: 100%;
+    height: 160px;
+  }
+  .booking-info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-page {
+    padding-top: 82px;
+    padding-bottom: 44px;
+  }
+
+  .profile-layout {
+    gap: 20px;
+  }
+
+  .user-card {
+    padding: 28px 16px;
+  }
+
+  .user-avatar {
+    width: 84px;
+    height: 84px;
+    font-size: 2rem;
+  }
+
+  .profile-nav-btn {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+
+  .profile-section-card {
+    padding: 22px;
+  }
+
+  .profile-section-card h2 {
+    font-size: 1.35rem;
+  }
+
+  .booking-item {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .booking-img-wrap {
+    height: 140px;
+  }
+
+  .booking-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .booking-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-page {
+    padding-top: 74px;
+  }
+
+  .profile-section-card {
+    padding: 18px;
+  }
+
+  .user-card h3 {
+    font-size: 1.25rem;
+  }
+}

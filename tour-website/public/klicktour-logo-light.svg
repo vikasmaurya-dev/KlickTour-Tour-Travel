@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" fill="none">
+  <defs>
+    <linearGradient id="swirl1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7B4DAA"/>
+      <stop offset="50%" stop-color="#E8734A"/>
+      <stop offset="100%" stop-color="#E85D5D"/>
+    </linearGradient>
+    <linearGradient id="dot1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8734A"/>
+      <stop offset="100%" stop-color="#E85D5D"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Swirl icon -->
+  <g transform="translate(10, 8)">
+    <!-- Outer C swirl -->
+    <path d="M52 8C28 8 8 28 8 52C8 76 28 96 52 96C62 96 72 92 80 86" 
+          stroke="#7B4DAA" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.9"/>
+    <!-- Inner swirl -->
+    <path d="M75 40C72 28 62 20 50 20C36 20 24 32 24 46C24 58 34 68 46 68C52 68 58 65 62 60" 
+          stroke="url(#swirl1)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- Center dot -->
+    <circle cx="50" cy="46" r="8" fill="url(#dot1)"/>
+    <!-- Small accent dot -->
+    <circle cx="42" cy="42" r="3" fill="#E85D5D"/>
+  </g>
+
+  <!-- KlickTour text - DARK NAVY for light mode -->
+  <text x="115" y="78" font-family="'Quicksand', 'Nunito', 'Poppins', sans-serif" font-weight="800" font-size="58" fill="#1B2240" letter-spacing="-1">
+    <tspan>Klick</tspan><tspan fill="#1B2240">Tour</tspan>
+  </text>
+</svg>

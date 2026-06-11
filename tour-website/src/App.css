@@ -1,0 +1,23 @@
+/*
+ * App.css — KlickTour global app styles
+ * Note: Removed all Vite starter template styles (hero, ticks, #center, #next-steps etc.)
+ *       that were never used by the application.
+ */
+
+:root {
+  --global-navbar-height: 60px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  padding-top: 0;
+}
+
+.app-main > :not(.home-page) {
+  padding-top: var(--global-navbar-height);
+}

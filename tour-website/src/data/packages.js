@@ -1,0 +1,12 @@
+export const packagesData = [
+  { id: 101, name: "Goa Beach Getaway", duration: "5 Days / 4 Nights", image: "https://images.unsplash.com/photo-1549488344-c6899ba89f41?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 15450, rating: 4.8, popularity: 90 },
+  { id: 102, name: "Golden Triangle Tour", duration: "7 Days / 6 Nights", image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 25500, rating: 4.9, popularity: 95 },
+  { id: 103, name: "Rajasthan Desert Safari", duration: "3 Days / 2 Nights", image: "https://images.unsplash.com/photo-1542401886-65d6c61db217?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 12299, rating: 4.7, popularity: 85 },
+  { id: 104, name: "Himalayan Trekking in Manali", duration: "7 Days / 6 Nights", image: "https://images.unsplash.com/photo-1605649487212-4d4ce17a8ea3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 18650, rating: 4.6, popularity: 80 },
+  { id: 105, name: "Kerala Backwaters Cruise", duration: "5 Days / 4 Nights", image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 32800, rating: 5.0, popularity: 88 },
+  { id: 106, name: "Meghalaya Nature Tour", duration: "8 Days / 7 Nights", image: "https://images.unsplash.com/photo-1596707314271-e75c74384a32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 28400, rating: 4.9, popularity: 92 },
+  { id: 107, name: "Andaman Island Hopping", duration: "6 Days / 5 Nights", image: "https://images.unsplash.com/photo-1589394815804-964ce0ff96c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 24000, rating: 4.8, popularity: 86 },
+  { id: 108, name: "Kashmir Paradise Tour", duration: "7 Days / 6 Nights", image: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 35000, rating: 4.9, popularity: 89 },
+  { id: 109, name: "Varanasi Spiritual Journey", duration: "4 Days / 3 Nights", image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 11000, rating: 4.5, popularity: 82 },
+  { id: 110, name: "Ooty & Coorg Retreat", duration: "6 Days / 5 Nights", image: "https://images.unsplash.com/photo-1582239634898-d10ac3d7d4c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", price: 21500, rating: 4.7, popularity: 84 }
+];

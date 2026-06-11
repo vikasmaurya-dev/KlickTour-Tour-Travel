@@ -1,0 +1,31 @@
+﻿
+> tour-website@0.0.0 lint
+> eslint .
+
+
+D:\A\project 2\tour-website\src\components\HotelCard.jsx
+  19:99  error  'type' is defined but never used  no-unused-vars
+
+D:\A\project 2\tour-website\src\components\OtpVerify.jsx
+   4:29  error  'purpose' is defined but never used  no-unused-vars
+  75:14  error  'err' is defined but never used      no-unused-vars
+
+D:\A\project 2\tour-website\src\components\common\ImagePreviewModal.jsx
+  47:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  45 |       // Ensure initialIndex is within bounds
+  46 |       const safeIndex = (initialIndex >= 0 && initialIndex < validImages.length) ? initialIndex : 0;
+> 47 |       setCurrentIndex(safeIndex);
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  48 |       document.body.style.overflow = 'hidden';
+  49 |       
+  50 |       window.addEventListener('keydown', handleKeyDown);  react-hooks/set-state-in-effect
+
+Γ£û 4 problems (4 errors, 0 warnings)
+

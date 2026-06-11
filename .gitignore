@@ -1,0 +1,26 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Temp/generated folders
+.edge-headless
+temp_image_processing2
+reports
+
+# Editor settings
+.vscode
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Root package files (not needed)
+package.json
+package-lock.json
