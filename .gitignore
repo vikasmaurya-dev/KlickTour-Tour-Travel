@@ -21,6 +21,6 @@ reports
 .DS_Store
 Thumbs.db
 
-# Root package files (not needed)
-package.json
-package-lock.json
+# Root package files (not needed — leading / means root only)
+/package.json
+/package-lock.json
