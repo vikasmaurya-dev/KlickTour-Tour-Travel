@@ -1,9 +1,7 @@
 import nodemailer from 'nodemailer';
-import { Resend } from 'resend';
 
-// Use Resend API if key is available (works on Render/cloud), else SMTP (local dev)
-const useResend = !!process.env.RESEND_API_KEY;
-const resend = useResend ? new Resend(process.env.RESEND_API_KEY) : null;
+// Use Brevo HTTP API if key is available (works on Render/cloud), else SMTP (local dev)
+const useBrevo = !!process.env.BREVO_API_KEY;
 
 const createMailTransport = () => {
   const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
@@ -27,21 +25,31 @@ const createMailTransport = () => {
 };
 
 const sendEmail = async ({ to, subject, text, html }) => {
-  // Method 1: Resend API (cloud-friendly, no SMTP ports needed)
-  if (useResend) {
-    const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
-    const { error } = await resend.emails.send({
-      from: `KlickTour Travel <${fromEmail}>`,
-      to: [to],
-      subject,
-      text,
-      html,
+  // Method 1: Brevo HTTP API (cloud-friendly, no SMTP ports needed)
+  if (useBrevo) {
+    const fromEmail = process.env.FROM_EMAIL || 'klicktour17@gmail.com';
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { name: 'KlickTour Travel', email: fromEmail },
+        to: [{ email: to }],
+        subject,
+        textContent: text,
+        htmlContent: html,
+      }),
     });
-    if (error) {
-      console.error('Resend error:', error);
-      throw new Error(error.message);
+
+    if (!response.ok) {
+      const err = await response.json();
+      console.error('Brevo error:', err);
+      throw new Error(err.message || 'Brevo email failed');
     }
-    console.log(`📧 Email sent via Resend to ${to}`);
+    console.log(`📧 Email sent via Brevo to ${to}`);
     return;
   }
 
