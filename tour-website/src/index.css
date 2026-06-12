@@ -415,15 +415,19 @@ table {
   }
 
   .horizontal-scroll {
-    gap: 18px;
+    gap: 16px;
     padding-bottom: 14px;
-    padding-left: calc((100vw - min(82vw, 320px)) / 2);
-    padding-right: calc((100vw - min(82vw, 320px)) / 2);
+    scroll-snap-type: x mandatory;
+  }
+
+  .horizontal-scroll::before,
+  .horizontal-scroll::after {
+    content: '';
+    flex: 0 0 1px;
   }
 
   .horizontal-scroll > * {
-    flex-basis: min(82vw, 320px);
-    flex-shrink: 0;
+    flex: 0 0 80vw;
     scroll-snap-align: center;
   }
 }
