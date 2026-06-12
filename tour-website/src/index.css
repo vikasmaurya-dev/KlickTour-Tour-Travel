@@ -417,10 +417,13 @@ table {
   .horizontal-scroll {
     gap: 18px;
     padding-bottom: 14px;
+    padding-left: calc((100vw - min(82vw, 320px)) / 2);
+    padding-right: calc((100vw - min(82vw, 320px)) / 2);
   }
 
   .horizontal-scroll > * {
     flex-basis: min(82vw, 320px);
+    flex-shrink: 0;
     scroll-snap-align: center;
   }
 }
